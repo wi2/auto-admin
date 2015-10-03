@@ -1,0 +1,36 @@
+{
+  "name": "auto-admin",
+  "version": "0.0.1",
+  "description": "Automatic Administrator for sails.js in react",
+  "scripts": {
+    "test": "npm run prepublish && mocha --compilers js:babel-core/register test/test.js",
+    "prepublish": "babel src --stage 0 --out-dir dist"
+  },
+  "keywords": [
+    "sails",
+    "react",
+    "admin",
+    "auto",
+    "isomorphic",
+    "socket.io"
+  ],
+  "author": "wi2",
+  "license": "MIT",
+  "dependencies": {
+    "newforms": "^0.12.1",
+    "newforms-bootstrap": "^2.0.0",
+    "react": "^0.13.3",
+    "react-router": "^0.13.3"
+  },
+  "devDependencies": {
+    "babel-core": "^5.8.22",
+    "expect": "^1.11.1",
+    "jsdom": "^6.1.0",
+    "mocha": "^2.2.5",
+    "node-jsdom": "^3.1.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:wi2/auto-admin.git"
+  }
+}
