@@ -13,18 +13,9 @@ var Admin = require('../index');
 
 var TestContext = {
   getRouterComponent: function(TargetComponent) {
-    var component,
-        div = document.createElement('div'),
-        routes = (
-          <Route>
-            <Route name="home" path="/admin" handler={Admin.Home} />
-            <Route name="list" path="/admin/:identity" handler={Admin.List} />
-            <Route name="create" path="/admin/:identity/new" handler={Admin.Create} />
-            <Route name="update" path="/admin/:identity/:id" handler={Admin.Update} />
-          </Route>
-        );
-
-    var location = new TestLocation(['/admin/user']);
+    var component
+      , div = document.createElement('div')
+      , location = new TestLocation(['/admin/user']);
 
     let formItem = [
       {input: 'string', label:'title'},
@@ -36,7 +27,7 @@ var TestContext = {
     ];
 
 
-    Router.run(routes, location, function (Handler) {
+    Router.run(Admin.Routes, location, function (Handler) {
       var mainComponent = React.render(<Handler
         identities={['user']}
         items={items} formItem={formItem} />, div);

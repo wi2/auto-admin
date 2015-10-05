@@ -32,6 +32,8 @@ var _list = require('./list');
 
 var _list2 = _interopRequireDefault(_list);
 
+var _reactRouter = require('react-router');
+
 var Home = (function (_React$Component) {
   function Home() {
     _classCallCheck(this, Home);
@@ -282,3 +284,12 @@ var List = (function (_React$Component3) {
 })(_react2['default'].Component);
 
 exports.List = List;
+var Routes = _react2['default'].createElement(
+  _reactRouter.Route,
+  { handler: _reactRouter.RouteHandler },
+  _react2['default'].createElement(_reactRouter.Route, { name: 'home', path: '/admin', handler: Home }),
+  _react2['default'].createElement(_reactRouter.Route, { name: 'list', path: '/admin/:identity', handler: List }),
+  _react2['default'].createElement(_reactRouter.Route, { name: 'create', path: '/admin/:identity/new', handler: Create }),
+  _react2['default'].createElement(_reactRouter.Route, { name: 'update', path: '/admin/:identity/:id', handler: Update })
+);
+exports.Routes = Routes;

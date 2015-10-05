@@ -4,7 +4,7 @@ import React from 'react'
 import DefaultLayout from './layout'
 import AdForm from './form'
 import AdList from './list'
-
+import {RouteHandler, Route} from 'react-router'
 
 export class Home extends React.Component {
   componentWillMount() {
@@ -145,5 +145,16 @@ export class List extends React.Component {
     );
   }
 }
+
+
+export const Routes = (
+  <Route handler={RouteHandler}>
+    <Route name="home" path="/admin" handler={Home} />
+    <Route name="list" path="/admin/:identity" handler={List} />
+    <Route name="create" path="/admin/:identity/new" handler={Create} />
+    <Route name="update" path="/admin/:identity/:id" handler={Update} />
+  </Route>
+);
+
 
 
