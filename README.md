@@ -1,10 +1,16 @@
-Auto-admin
+# Auto Admin
+## Fast and automatic administration maker.
+Developped for sailsjs and use reactjs(ES6)
 
 ## Installation
 
 ```sh
 $ npm install auto-admin --save
 ```
+### Example
+
+[sails-isomorphic-react-admin-example](https://github.com/wi2/sails-isomorphic-react-admin-example)
+
 
 ## Usage
 app.js
@@ -12,14 +18,16 @@ app.js
 
 import React from 'react';
 import Router, {HistoryLocation} from 'react-router';
+import {Routes} from 'auto-admin';
 
-Router.run(require('./routes'), HistoryLocation, Root => {
+Router.run(Routes, HistoryLocation, Root => {
   React.render(<Root {...window.__ReactInitState__} />, document.body);
   delete window.__ReactInitState__;
 });
 
 ```
 
+### Overwrite routes
 routes.js
 ```js
 
@@ -40,7 +48,7 @@ module.exports = (
 
 ```
 
-Personalize your form with newforms-bootstrap
+### Personalize your form with newforms-bootstrap
 form.js
 ```js
 
@@ -67,6 +75,53 @@ export const comment = (
 );
 
 ```
+app.js
+```js
+import React from 'react';
+import Router, {HistoryLocation} from 'react-router';
+import {Routes} from 'auto-admin'
+import * as modelsForm from './forms'
+
+Router.run(Routes, HistoryLocation, Root => {
+  React.render(<Root {...window.__ReactInitState__} models={modelsForm} />, document.body);
+  delete window.__ReactInitState__;
+});
+
+```
+
+### Change your Layout
+layout.js
+```js
+"use strict";
+
+import React from 'react'
+
+export default class {
+  render() {
+    return (
+      <div>
+        {this.props.children}
+      </div>
+    )
+  }
+}
+
+```
+
+app.js
+```js
+import React from 'react';
+import Router, {HistoryLocation} from 'react-router';
+import {Routes} from 'auto-admin'
+import Layout from './layout';
+
+Router.run(Routes, HistoryLocation, Root => {
+  React.render(<Root {...window.__ReactInitState__} layout={Layout} />, document.body);
+  delete window.__ReactInitState__;
+});
+
+```
+
 
 
 ## License
