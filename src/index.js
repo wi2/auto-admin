@@ -7,10 +7,19 @@ import AdList from './list'
 import {RouteHandler, Route, Navigation} from 'react-router'
 
 
-export class Home extends React.Component {
+class AdminComponent extends React.Component {
+  static defaultProps = {
+    root: '/admin'
+  }
+  static propTypes = {
+    root: React.PropTypes.string.isRequired
+  }
+}
+
+export class Home extends AdminComponent {
   componentWillMount() {
     if (typeof io !== "undefined")
-      io.socket.get("/admin", (res => { this.setState(res) }));
+      io.socket.get(this.props.root, (res => { this.setState(res) }));
   }
   render() {
     let CurrentLayout = this.props.layout||DefaultLayout;
@@ -22,7 +31,7 @@ export class Home extends React.Component {
   }
 }
 
-class FormItem extends React.Component {
+class FormItem extends AdminComponent {
   componentWillMount() {
     if (!this.props.item)
       this.getItem(this.props.identity||this.props.params.identity);
@@ -35,7 +44,7 @@ class FormItem extends React.Component {
     this.loading = true;
     let url = (this.props.params.id) ? "/" + this.props.params.id : "/new";
     if (typeof io !== "undefined") {
-      io.socket.get("/admin/" + identity + url, ( res => {
+      io.socket.get(this.props.root + "/" + identity + url, ( res => {
         this.loading = false;
         this.setState(res);
       }));
@@ -110,7 +119,7 @@ export class Create extends FormItem {
   }
 }
 
-export class List extends React.Component {
+export class List extends AdminComponent {
   componentWillMount() {
     if (!this.props.item) {
       this.getItems(this.props.identity||this.props.params.identity);
@@ -123,7 +132,7 @@ export class List extends React.Component {
   }
   getItems(identity, params) {
     if (typeof io !== "undefined") {
-      io.socket.get("/admin/" + identity, params||{}, ( res => {
+      io.socket.get(this.props.root + "/" + identity, params||{}, ( res => {
         this.setState(res)
       }));
     }
@@ -155,15 +164,14 @@ export class List extends React.Component {
   }
 }
 
-
-export const Routes = (
-  <Route handler={RouteHandler}>
-    <Route name="home" path="/admin" handler={Home} />
-    <Route name="list" path="/admin/:identity" handler={List} />
-    <Route name="create" path="/admin/:identity/new" handler={Create} />
-    <Route name="update" path="/admin/:identity/:id" handler={Update} />
-  </Route>
-);
-
-
+export function Routes(root='/admin') {
+  return (
+    <Route handler={RouteHandler}>
+      <Route name="home" path={root} handler={Home} />
+      <Route name="list" path={`${root}/:identity`} handler={List} />
+      <Route name="create" path={`${root}/:identity/new`} handler={Create} />
+      <Route name="update" path={`${root}/:identity/:id`} handler={Update} />
+    </Route>
+  );
+}
 

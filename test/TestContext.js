@@ -27,10 +27,10 @@ var TestContext = {
     ];
 
 
-    Router.run(Admin.Routes, location, function (Handler) {
+    Router.run(Admin.Routes(), location, function (Handler) {
       var mainComponent = React.render(<Handler
         identities={['user']}
-        items={items} formItem={formItem} />, div);
+        items={items} formItem={formItem}  />, div);
 
       component = TestUtils.findRenderedComponentWithType(mainComponent,
         TargetComponent);
