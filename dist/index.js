@@ -170,6 +170,8 @@ var FormItem = (function (_React$Component2) {
   return FormItem;
 })(_react2['default'].Component);
 
+FormItem.contextTypes = { router: _reactRouter.Navigation.contextTypes };
+
 var Update = (function (_FormItem) {
   function Update() {
     _classCallCheck(this, Update);
@@ -182,8 +184,11 @@ var Update = (function (_FormItem) {
   _createClass(Update, [{
     key: 'onSave',
     value: function onSave(data) {
+      var _this4 = this;
+
+      var identity = this.props.identity || this.props.params.identity;
       this.saving(data, '/' + this.props.params.id, function (res) {
-        console.log(res);
+        _this4.context.router.transitionTo('list', { identity: identity });
       });
     }
   }]);
@@ -205,8 +210,11 @@ var Create = (function (_FormItem2) {
   _createClass(Create, [{
     key: 'onSave',
     value: function onSave(data) {
+      var _this5 = this;
+
+      var identity = this.props.identity || this.props.params.identity;
       this.saving(data, function (res) {
-        console.log(res);
+        _this5.context.router.transitionTo('list', { identity: identity });
       });
     }
   }]);
@@ -242,11 +250,11 @@ var List = (function (_React$Component3) {
   }, {
     key: 'getItems',
     value: function getItems(identity, params) {
-      var _this4 = this;
+      var _this6 = this;
 
       if (typeof io !== 'undefined') {
         io.socket.get('/admin/' + identity, params || {}, function (res) {
-          _this4.setState(res);
+          _this6.setState(res);
         });
       }
     }

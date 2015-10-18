@@ -4,7 +4,8 @@ import React from 'react'
 import DefaultLayout from './layout'
 import AdForm from './form'
 import AdList from './list'
-import {RouteHandler, Route} from 'react-router'
+import {RouteHandler, Route, Navigation} from 'react-router'
+
 
 export class Home extends React.Component {
   componentWillMount() {
@@ -89,15 +90,23 @@ class FormItem extends React.Component {
     );
   }
 }
+FormItem.contextTypes = { router: Navigation.contextTypes }
+
 export class Update extends FormItem {
   onSave(data) {
-    this.saving(data, "/" + this.props.params.id, res => { console.log(res); });
+    let identity = this.props.identity||this.props.params.identity
+    this.saving(data, "/" + this.props.params.id, res => {
+      this.context.router.transitionTo("list", {identity})
+    });
   }
 }
 
 export class Create extends FormItem {
   onSave(data) {
-    this.saving(data, res => { console.log(res); });
+    let identity = this.props.identity||this.props.params.identity
+    this.saving(data, res => {
+      this.context.router.transitionTo("list", {identity})
+    });
   }
 }
 
