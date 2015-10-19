@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, '__esModule', {
   value: true
@@ -17,11 +17,11 @@ var _react2 = _interopRequireDefault(_react);
 var _reactRouter = require('react-router');
 
 var _default = (function () {
-  var _class = function _default() {
-    _classCallCheck(this, _class);
-  };
+  function _default() {
+    _classCallCheck(this, _default);
+  }
 
-  _createClass(_class, [{
+  _createClass(_default, [{
     key: 'render',
     value: function render() {
       var identities = this.props.identities;
@@ -85,7 +85,7 @@ var _default = (function () {
     }
   }]);
 
-  return _class;
+  return _default;
 })();
 
 exports['default'] = _default;

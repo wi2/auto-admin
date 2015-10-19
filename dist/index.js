@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, '__esModule', {
   value: true
@@ -16,7 +16,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require('react');
 
@@ -37,13 +37,13 @@ var _list2 = _interopRequireDefault(_list);
 var _reactRouter = require('react-router');
 
 var AdminComponent = (function (_React$Component) {
+  _inherits(AdminComponent, _React$Component);
+
   function AdminComponent() {
     _classCallCheck(this, AdminComponent);
 
     _get(Object.getPrototypeOf(AdminComponent.prototype), 'constructor', this).apply(this, arguments);
   }
-
-  _inherits(AdminComponent, _React$Component);
 
   _createClass(AdminComponent, null, [{
     key: 'defaultProps',
@@ -63,20 +63,20 @@ var AdminComponent = (function (_React$Component) {
 })(_react2['default'].Component);
 
 var Home = (function (_AdminComponent) {
+  _inherits(Home, _AdminComponent);
+
   function Home() {
     _classCallCheck(this, Home);
 
     _get(Object.getPrototypeOf(Home.prototype), 'constructor', this).apply(this, arguments);
   }
 
-  _inherits(Home, _AdminComponent);
-
   _createClass(Home, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
       var _this = this;
 
-      if (typeof io !== 'undefined') io.socket.get(this.props.root, function (res) {
+      if (typeof io !== "undefined") io.socket.get(this.props.root, function (res) {
         _this.setState(res);
       });
     }
@@ -102,13 +102,13 @@ var Home = (function (_AdminComponent) {
 exports.Home = Home;
 
 var FormItem = (function (_AdminComponent2) {
+  _inherits(FormItem, _AdminComponent2);
+
   function FormItem() {
     _classCallCheck(this, FormItem);
 
     _get(Object.getPrototypeOf(FormItem.prototype), 'constructor', this).apply(this, arguments);
   }
-
-  _inherits(FormItem, _AdminComponent2);
 
   _createClass(FormItem, [{
     key: 'componentWillMount',
@@ -126,9 +126,9 @@ var FormItem = (function (_AdminComponent2) {
       var _this2 = this;
 
       this.loading = true;
-      var url = this.props.params.id ? '/' + this.props.params.id : '/new';
-      if (typeof io !== 'undefined') {
-        io.socket.get(this.props.root + '/' + identity + url, function (res) {
+      var url = this.props.params.id ? "/" + this.props.params.id : "/new";
+      if (typeof io !== "undefined") {
+        io.socket.get(this.props.root + "/" + identity + url, function (res) {
           _this2.loading = false;
           _this2.setState(res);
         });
@@ -156,10 +156,10 @@ var FormItem = (function (_AdminComponent2) {
   }, {
     key: 'saving',
     value: function saving(data, url, cb) {
-      if (typeof io !== 'undefined') {
+      if (typeof io !== "undefined") {
         if (typeof url === 'function') {
           cb = url;
-          url = '';
+          url = "";
         }
         var identity = this.props.identity || this.props.params.identity,
             fItem = this.props.formItem;
@@ -168,7 +168,7 @@ var FormItem = (function (_AdminComponent2) {
           return a.type === 'binary';
         });
         this.multipart(data, binaries, function (result) {
-          io.socket.post('/' + identity + url, result, function (res) {
+          io.socket.post("/" + identity + url, result, function (res) {
             if (cb) cb(res);
           });
         });
@@ -201,13 +201,13 @@ var FormItem = (function (_AdminComponent2) {
 FormItem.contextTypes = { router: _reactRouter.Navigation.contextTypes };
 
 var Update = (function (_FormItem) {
+  _inherits(Update, _FormItem);
+
   function Update() {
     _classCallCheck(this, Update);
 
     _get(Object.getPrototypeOf(Update.prototype), 'constructor', this).apply(this, arguments);
   }
-
-  _inherits(Update, _FormItem);
 
   _createClass(Update, [{
     key: 'onSave',
@@ -215,8 +215,8 @@ var Update = (function (_FormItem) {
       var _this4 = this;
 
       var identity = this.props.identity || this.props.params.identity;
-      this.saving(data, '/' + this.props.params.id, function (res) {
-        _this4.context.router.transitionTo('list', { identity: identity });
+      this.saving(data, "/" + this.props.params.id, function (res) {
+        _this4.context.router.transitionTo("list", { identity: identity });
       });
     }
   }]);
@@ -227,13 +227,13 @@ var Update = (function (_FormItem) {
 exports.Update = Update;
 
 var Create = (function (_FormItem2) {
+  _inherits(Create, _FormItem2);
+
   function Create() {
     _classCallCheck(this, Create);
 
     _get(Object.getPrototypeOf(Create.prototype), 'constructor', this).apply(this, arguments);
   }
-
-  _inherits(Create, _FormItem2);
 
   _createClass(Create, [{
     key: 'onSave',
@@ -242,7 +242,7 @@ var Create = (function (_FormItem2) {
 
       var identity = this.props.identity || this.props.params.identity;
       this.saving(data, function (res) {
-        _this5.context.router.transitionTo('list', { identity: identity });
+        _this5.context.router.transitionTo("list", { identity: identity });
       });
     }
   }]);
@@ -253,13 +253,13 @@ var Create = (function (_FormItem2) {
 exports.Create = Create;
 
 var List = (function (_AdminComponent3) {
+  _inherits(List, _AdminComponent3);
+
   function List() {
     _classCallCheck(this, List);
 
     _get(Object.getPrototypeOf(List.prototype), 'constructor', this).apply(this, arguments);
   }
-
-  _inherits(List, _AdminComponent3);
 
   _createClass(List, [{
     key: 'componentWillMount',
@@ -280,8 +280,8 @@ var List = (function (_AdminComponent3) {
     value: function getItems(identity, params) {
       var _this6 = this;
 
-      if (typeof io !== 'undefined') {
-        io.socket.get(this.props.root + '/' + identity, params || {}, function (res) {
+      if (typeof io !== "undefined") {
+        io.socket.get(this.props.root + "/" + identity, params || {}, function (res) {
           _this6.setState(res);
         });
       }
@@ -301,7 +301,7 @@ var List = (function (_AdminComponent3) {
       } else {
         if (this.sort[0] === lbl) this.sort[1] = this.sort[1] === 'ASC' ? 'DESC' : 'ASC';else this.sort[0] = lbl; // this.sort = [lbl, 'ASC'];
       }
-      this.getItems(this.props.identity || this.props.params.identity, { sort: this.sort.join(' ') });
+      this.getItems(this.props.identity || this.props.params.identity, { sort: this.sort.join(" ") });
     }
   }, {
     key: 'render',
@@ -322,7 +322,7 @@ var List = (function (_AdminComponent3) {
 exports.List = List;
 
 function Routes() {
-  var root = arguments[0] === undefined ? '/admin' : arguments[0];
+  var root = arguments.length <= 0 || arguments[0] === undefined ? '/admin' : arguments[0];
 
   return _react2['default'].createElement(
     _reactRouter.Route,

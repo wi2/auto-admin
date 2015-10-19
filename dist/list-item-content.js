@@ -1,5 +1,4 @@
 "use strict";
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
@@ -18,18 +17,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _listSort = require('./list-sort');
-
-var _listSort2 = _interopRequireDefault(_listSort);
-
-var _listFilter = require('./list-filter');
-
-var _listFilter2 = _interopRequireDefault(_listFilter);
-
-var _listItem = require('./list-item');
-
-var _listItem2 = _interopRequireDefault(_listItem);
-
 var _default = (function (_React$Component) {
   _inherits(_default, _React$Component);
 
@@ -40,49 +27,28 @@ var _default = (function (_React$Component) {
   }
 
   _createClass(_default, [{
-    key: 'sortBy',
-    value: function sortBy(lbl) {
-      this.props.sortBy(lbl);
-    }
-  }, {
-    key: 'filterBy',
-    value: function filterBy(lbl, val) {
-      this.props.filterBy(lbl, val);
-    }
-  }, {
     key: 'render',
     value: function render() {
-      var _this = this;
-
-      var fItem = this.props.formItem || [{ label: 'id' }];
-      return _react2['default'].createElement(
-        'div',
-        { className: 'table-responsive' },
-        _react2['default'].createElement(
-          'h1',
+      var item = this.props.item;
+      if (this.props.type === 'binary') {
+        if (!item) return _react2['default'].createElement('span', null);else if (item.split("/")[0] === 'data:image') return _react2['default'].createElement('img', { src: item || 'data:image/png;base64,null' });else return _react2['default'].createElement(
+          'a',
+          { href: item },
+          'Download'
+        );
+      } else if (this.props.type === 'boolean') {
+        return _react2['default'].createElement(
+          'span',
           null,
-          this.props.identity,
-          ' List'
-        ),
-        _react2['default'].createElement(
-          'table',
-          { className: 'table' },
-          _react2['default'].createElement(
-            'thead',
-            null,
-            _react2['default'].createElement(_listSort2['default'], { item: fItem, sortBy: this.sortBy.bind(this) }),
-            _react2['default'].createElement(_listFilter2['default'], { item: fItem, filterBy: this.filterBy.bind(this) })
-          ),
-          _react2['default'].createElement(
-            'tbody',
-            null,
-            this.props.items && this.props.items.map(function (item) {
-              var urlParams = { identity: _this.props.identity, id: item.id };
-              return _react2['default'].createElement(_listItem2['default'], { key: item.id, item: item, fItem: fItem, urlParams: urlParams });
-            })
-          )
-        )
-      );
+          item ? 'true' : 'false'
+        );
+      } else {
+        return _react2['default'].createElement(
+          'span',
+          null,
+          item || '-'
+        );
+      }
     }
   }]);
 

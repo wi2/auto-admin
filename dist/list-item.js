@@ -1,5 +1,4 @@
 "use strict";
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
@@ -18,17 +17,11 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _listSort = require('./list-sort');
+var _reactRouter = require('react-router');
 
-var _listSort2 = _interopRequireDefault(_listSort);
+var _listItemContent = require('./list-item-content');
 
-var _listFilter = require('./list-filter');
-
-var _listFilter2 = _interopRequireDefault(_listFilter);
-
-var _listItem = require('./list-item');
-
-var _listItem2 = _interopRequireDefault(_listItem);
+var _listItemContent2 = _interopRequireDefault(_listItemContent);
 
 var _default = (function (_React$Component) {
   _inherits(_default, _React$Component);
@@ -40,48 +33,28 @@ var _default = (function (_React$Component) {
   }
 
   _createClass(_default, [{
-    key: 'sortBy',
-    value: function sortBy(lbl) {
-      this.props.sortBy(lbl);
-    }
-  }, {
-    key: 'filterBy',
-    value: function filterBy(lbl, val) {
-      this.props.filterBy(lbl, val);
-    }
-  }, {
     key: 'render',
     value: function render() {
-      var _this = this;
-
-      var fItem = this.props.formItem || [{ label: 'id' }];
+      var item = this.props.item;
       return _react2['default'].createElement(
-        'div',
-        { className: 'table-responsive' },
+        'tr',
+        { key: item.id },
         _react2['default'].createElement(
-          'h1',
+          'td',
           null,
-          this.props.identity,
-          ' List'
-        ),
-        _react2['default'].createElement(
-          'table',
-          { className: 'table' },
           _react2['default'].createElement(
-            'thead',
-            null,
-            _react2['default'].createElement(_listSort2['default'], { item: fItem, sortBy: this.sortBy.bind(this) }),
-            _react2['default'].createElement(_listFilter2['default'], { item: fItem, filterBy: this.filterBy.bind(this) })
-          ),
-          _react2['default'].createElement(
-            'tbody',
-            null,
-            this.props.items && this.props.items.map(function (item) {
-              var urlParams = { identity: _this.props.identity, id: item.id };
-              return _react2['default'].createElement(_listItem2['default'], { key: item.id, item: item, fItem: fItem, urlParams: urlParams });
-            })
+            _reactRouter.Link,
+            { to: 'update', params: this.props.urlParams },
+            'Edit'
           )
-        )
+        ),
+        this.props.fItem.map(function (it) {
+          return _react2['default'].createElement(
+            'td',
+            { key: it.label },
+            _react2['default'].createElement(_listItemContent2['default'], { item: item[it.label], type: it.type })
+          );
+        })
       );
     }
   }]);

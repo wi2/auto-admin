@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, '__esModule', {
   value: true
@@ -12,7 +12,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require('react');
 
@@ -25,15 +25,15 @@ var _newformsBootstrap = require('newforms-bootstrap');
 var _newformsBootstrap2 = _interopRequireDefault(_newformsBootstrap);
 
 var _default = (function (_React$Component) {
-  var _class = function _default() {
-    _classCallCheck(this, _class);
+  _inherits(_default, _React$Component);
 
-    _get(Object.getPrototypeOf(_class.prototype), 'constructor', this).apply(this, arguments);
-  };
+  function _default() {
+    _classCallCheck(this, _default);
 
-  _inherits(_class, _React$Component);
+    _get(Object.getPrototypeOf(_default.prototype), 'constructor', this).apply(this, arguments);
+  }
 
-  _createClass(_class, [{
+  _createClass(_default, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
       this.makeForm(this.props.formItem);
@@ -167,7 +167,7 @@ var _default = (function (_React$Component) {
     }
   }]);
 
-  return _class;
+  return _default;
 })(_react2['default'].Component);
 
 exports['default'] = _default;

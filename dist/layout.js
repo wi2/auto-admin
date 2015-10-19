@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, '__esModule', {
   value: true
@@ -19,11 +19,11 @@ var _nav = require('./nav');
 var _nav2 = _interopRequireDefault(_nav);
 
 var _default = (function () {
-  var _class = function _default() {
-    _classCallCheck(this, _class);
-  };
+  function _default() {
+    _classCallCheck(this, _default);
+  }
 
-  _createClass(_class, [{
+  _createClass(_default, [{
     key: 'render',
     value: function render() {
       return _react2['default'].createElement(
@@ -35,7 +35,7 @@ var _default = (function () {
     }
   }]);
 
-  return _class;
+  return _default;
 })();
 
 exports['default'] = _default;
