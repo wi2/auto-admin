@@ -14,6 +14,7 @@ export default class extends React.Component {
   }
   render() {
     let fItem = this.props.formItem||[{label: 'id'}];
+    let items = this.props.items;
     return (
       <div className="table-responsive">
         <h1>{this.props.identity} List</h1>
@@ -23,7 +24,7 @@ export default class extends React.Component {
             <Filter item={fItem} filterBy={this.filterBy.bind(this)} />
           </thead>
           <tbody>
-          {this.props.items && this.props.items.map( item => {
+          {items && items.map( item => {
             let urlParams = {identity:this.props.identity, id: item.id};
             return <Item key={item.id} item={item} fItem={fItem} urlParams={urlParams} />
           })}

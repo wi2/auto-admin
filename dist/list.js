@@ -55,6 +55,7 @@ var _default = (function (_React$Component) {
       var _this = this;
 
       var fItem = this.props.formItem || [{ label: 'id' }];
+      var items = this.props.items;
       return _react2['default'].createElement(
         'div',
         { className: 'table-responsive' },
@@ -76,7 +77,7 @@ var _default = (function (_React$Component) {
           _react2['default'].createElement(
             'tbody',
             null,
-            this.props.items && this.props.items.map(function (item) {
+            items && items.map(function (item) {
               var urlParams = { identity: _this.props.identity, id: item.id };
               return _react2['default'].createElement(_listItem2['default'], { key: item.id, item: item, fItem: fItem, urlParams: urlParams });
             })

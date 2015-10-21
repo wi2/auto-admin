@@ -9,7 +9,9 @@ export default class extends React.Component {
     return (
       <tr key={item.id}>
         <td><Link to="update" params={this.props.urlParams}>Edit</Link></td>
-          {this.props.fItem.map( it => <td key={it.label}><Content item={item[it.label]} type={it.type} /></td> )}
+          {this.props.fItem.map( it => {
+            return <td key={it.label}><Content item={item[it.label]} type={it.type} /></td>
+          } )}
       </tr>
     );
   }

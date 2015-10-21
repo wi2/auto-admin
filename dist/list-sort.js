@@ -29,7 +29,6 @@ var _default = (function (_React$Component) {
   _createClass(_default, [{
     key: "_onClick",
     value: function _onClick(lbl, e) {
-      console.log(e);
       if (e) e.preventDefault();
       this.props.sortBy(lbl);
     }
