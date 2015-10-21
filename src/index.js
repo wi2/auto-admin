@@ -120,6 +120,9 @@ export class Create extends FormItem {
 }
 
 export class List extends AdminComponent {
+  state = {
+    filter: {}
+  }
   componentWillMount() {
     if (!this.props.item) {
       this.getItems(this.props.identity||this.props.params.identity);
@@ -138,9 +141,14 @@ export class List extends AdminComponent {
     }
   }
   filterBy(lbl, val) {
-    let filter = {};
-    filter[lbl] = {contains: val};
-    this.getItems(this.props.identity||this.props.params.identity, val ? {contain: filter} : null );
+    let filter = this.state.filter;
+    filter[lbl] = {'contains': val};
+    if (val.length) {
+      this.setState(filter);
+    } else if (this.state.filter[lbl]) {
+      delete this.state.filter[lbl];
+    }
+    this.getItems(this.props.identity||this.props.params.identity, val ? {contain: this.state.filter} : null );
   }
   sortBy(lbl) {
     if (!this.sort) {

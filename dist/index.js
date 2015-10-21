@@ -259,6 +259,10 @@ var List = (function (_AdminComponent3) {
     _classCallCheck(this, List);
 
     _get(Object.getPrototypeOf(List.prototype), 'constructor', this).apply(this, arguments);
+
+    this.state = {
+      filter: {}
+    };
   }
 
   _createClass(List, [{
@@ -289,9 +293,14 @@ var List = (function (_AdminComponent3) {
   }, {
     key: 'filterBy',
     value: function filterBy(lbl, val) {
-      var filter = {};
-      filter[lbl] = { contains: val };
-      this.getItems(this.props.identity || this.props.params.identity, val ? { contain: filter } : null);
+      var filter = this.state.filter;
+      filter[lbl] = { 'contains': val };
+      if (val.length) {
+        this.setState(filter);
+      } else if (this.state.filter[lbl]) {
+        delete this.state.filter[lbl];
+      }
+      this.getItems(this.props.identity || this.props.params.identity, val ? { contain: this.state.filter } : null);
     }
   }, {
     key: 'sortBy',
