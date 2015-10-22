@@ -1,6 +1,6 @@
 {
   "name": "auto-admin",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Automatic Administrator for sails.js in react",
   "scripts": {
     "test": "npm run prepublish && mocha --compilers js:babel/register --recursive test/test.js test/*.test.js",

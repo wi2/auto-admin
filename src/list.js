@@ -34,7 +34,8 @@ export default class extends React.Component {
           })}
           </tbody>
         </table>
-        <Pagination onChange={this.changePage.bind(this)}
+        <Pagination className="pagination"
+                    onChange={this.changePage.bind(this)}
                     pageSize={this.props.limit}
                     current={this.props.current}
                     total={this.props.total} />
