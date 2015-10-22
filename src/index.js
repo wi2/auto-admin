@@ -121,7 +121,10 @@ export class Create extends FormItem {
 
 export class List extends AdminComponent {
   state = {
-    filter: {}
+    contain: {},
+    sort: ['id', 'ASC'],
+    skip: 0,
+    limit: 30
   }
   componentWillMount() {
     if (!this.props.item) {
@@ -133,33 +136,33 @@ export class List extends AdminComponent {
       this.getItems(props.params.identity);
     }
   }
-  getItems(identity, params) {
+  getItems(identity) {
     if (typeof io !== "undefined") {
-      io.socket.get(this.props.root + "/" + identity, params||{}, ( res => {
+      let params = {
+        contain: this.state.contain,
+        sort: this.state.sort.join(" "),
+        limit: this.state.limit,
+        skip: this.state.skip
+      };
+      io.socket.get(this.props.root + "/" + identity, params, ( res => {
         this.setState(res)
       }));
     }
   }
   filterBy(lbl, val) {
-    let filter = this.state.filter;
-    filter[lbl] = {'contains': val};
-    if (val.length) {
-      this.setState(filter);
-    } else if (this.state.filter[lbl]) {
-      delete this.state.filter[lbl];
-    }
-    this.getItems(this.props.identity||this.props.params.identity, val ? {contain: this.state.filter} : null );
+    let contain = this.state.contain;
+    contain[lbl] = {'contains': val};
+    if (val.length) this.setState(contain);
+    else if (this.state.contain[lbl]) delete this.state.contain[lbl];
+    this.getItems(this.props.identity||this.props.params.identity);
   }
   sortBy(lbl) {
-    if (!this.sort) {
-      this.sort = [lbl, 'DESC'];
-    } else {
-      if (this.sort[0] === lbl)
-        this.sort[1] = (this.sort[1] === 'ASC') ? 'DESC' : 'ASC';
-      else
-        this.sort[0] = lbl; // this.sort = [lbl, 'ASC'];
-    }
-    this.getItems(this.props.identity||this.props.params.identity, {sort: this.sort.join(" ")} );
+    let sort = this.state.sort;
+    let direction = 'ASC';
+    if (sort[0] === lbl)
+      direction = (sort[1] === 'ASC') ? 'DESC' : 'ASC';
+    this.setState({sort: [lbl, direction]});
+    this.getItems(this.props.identity||this.props.params.identity);
   }
   render() {
     let CurrentLayout = this.props.layout||DefaultLayout;

@@ -261,7 +261,10 @@ var List = (function (_AdminComponent3) {
     _get(Object.getPrototypeOf(List.prototype), 'constructor', this).apply(this, arguments);
 
     this.state = {
-      filter: {}
+      contain: {},
+      sort: ['id', 'ASC'],
+      skip: 0,
+      limit: 2
     };
   }
 
@@ -281,11 +284,17 @@ var List = (function (_AdminComponent3) {
     }
   }, {
     key: 'getItems',
-    value: function getItems(identity, params) {
+    value: function getItems(identity) {
       var _this6 = this;
 
       if (typeof io !== "undefined") {
-        io.socket.get(this.props.root + "/" + identity, params || {}, function (res) {
+        var params = {
+          contain: this.state.contain,
+          sort: this.state.sort.join(" "),
+          limit: this.state.limit,
+          skip: this.state.skip
+        };
+        io.socket.get(this.props.root + "/" + identity, params, function (res) {
           _this6.setState(res);
         });
       }
@@ -293,24 +302,23 @@ var List = (function (_AdminComponent3) {
   }, {
     key: 'filterBy',
     value: function filterBy(lbl, val) {
-      var filter = this.state.filter;
-      filter[lbl] = { 'contains': val };
+      var contain = this.state.contain;
+      contain[lbl] = { 'contains': val };
       if (val.length) {
-        this.setState(filter);
-      } else if (this.state.filter[lbl]) {
-        delete this.state.filter[lbl];
+        this.setState(contain);
+      } else if (this.state.contain[lbl]) {
+        delete this.state.contain[lbl];
       }
-      this.getItems(this.props.identity || this.props.params.identity, val ? { contain: this.state.filter } : null);
+      this.getItems(this.props.identity || this.props.params.identity);
     }
   }, {
     key: 'sortBy',
     value: function sortBy(lbl) {
-      if (!this.sort) {
-        this.sort = [lbl, 'DESC'];
-      } else {
-        if (this.sort[0] === lbl) this.sort[1] = this.sort[1] === 'ASC' ? 'DESC' : 'ASC';else this.sort[0] = lbl; // this.sort = [lbl, 'ASC'];
-      }
-      this.getItems(this.props.identity || this.props.params.identity, { sort: this.sort.join(" ") });
+      var sort = this.state.sort;
+      var direction = 'ASC';
+      if (sort[0] === lbl) direction = sort[1] === 'ASC' ? 'DESC' : 'ASC';
+      this.setState({ sort: [lbl, direction] });
+      this.getItems(this.props.identity || this.props.params.identity);
     }
   }, {
     key: 'render',
