@@ -26,6 +26,10 @@ var _listFilter = require('./list-filter');
 
 var _listFilter2 = _interopRequireDefault(_listFilter);
 
+var _rcPagination = require('rc-pagination');
+
+var _rcPagination2 = _interopRequireDefault(_rcPagination);
+
 var _listItem = require('./list-item');
 
 var _listItem2 = _interopRequireDefault(_listItem);
@@ -48,6 +52,11 @@ var _default = (function (_React$Component) {
     key: 'filterBy',
     value: function filterBy(lbl, val) {
       this.props.filterBy(lbl, val);
+    }
+  }, {
+    key: 'changePage',
+    value: function changePage(lbl) {
+      this.props.changePage(lbl);
     }
   }, {
     key: 'render',
@@ -82,7 +91,11 @@ var _default = (function (_React$Component) {
               return _react2['default'].createElement(_listItem2['default'], { key: item.id, item: item, fItem: fItem, urlParams: urlParams });
             })
           )
-        )
+        ),
+        _react2['default'].createElement(_rcPagination2['default'], { onChange: this.changePage.bind(this),
+          pageSize: this.props.limit,
+          current: this.props.current,
+          total: this.props.total })
       );
     }
   }]);

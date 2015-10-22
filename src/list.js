@@ -3,6 +3,7 @@
 import React from 'react'
 import Sort from './list-sort'
 import Filter from './list-filter'
+import Pagination from 'rc-pagination'
 import Item from './list-item'
 
 export default class extends React.Component {
@@ -11,6 +12,9 @@ export default class extends React.Component {
   }
   filterBy(lbl, val) {
     this.props.filterBy(lbl, val);
+  }
+  changePage(lbl) {
+    this.props.changePage(lbl);
   }
   render() {
     let fItem = this.props.formItem||[{label: 'id'}];
@@ -30,6 +34,10 @@ export default class extends React.Component {
           })}
           </tbody>
         </table>
+        <Pagination onChange={this.changePage.bind(this)}
+                    pageSize={this.props.limit}
+                    current={this.props.current}
+                    total={this.props.total} />
       </div>
 
     );

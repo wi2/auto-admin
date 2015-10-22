@@ -122,26 +122,29 @@ export class Create extends FormItem {
 export class List extends AdminComponent {
   state = {
     contain: {},
-    sort: ['id', 'ASC'],
-    skip: 0,
-    limit: 30
+    sort: this.props.sort||['id', 'ASC'],
+    skip: this.props.skip||0
   }
   componentWillMount() {
     if (!this.props.item) {
       this.getItems(this.props.identity||this.props.params.identity);
     }
   }
-  componentWillUpdate(props) {
+  componentWillUpdate(props, state) {
     if (this.props.params.identity !== props.params.identity) {
       this.getItems(props.params.identity);
+    } else if (state.doChange || this.state.doChange) {
+      this.setState({doChange: false});
+      this.getItems();
     }
   }
-  getItems(identity) {
+  getItems(identity=this.props.identity||this.props.params.identity) {
     if (typeof io !== "undefined") {
+      // let identity = this.props.identity||this.props.params.identity;
       let params = {
         contain: this.state.contain,
         sort: this.state.sort.join(" "),
-        limit: this.state.limit,
+        limit: this.props.limit,
         skip: this.state.skip
       };
       io.socket.get(this.props.root + "/" + identity, params, ( res => {
@@ -154,22 +157,36 @@ export class List extends AdminComponent {
     contain[lbl] = {'contains': val};
     if (val.length) this.setState(contain);
     else if (this.state.contain[lbl]) delete this.state.contain[lbl];
-    this.getItems(this.props.identity||this.props.params.identity);
+    this.setState({doChange: true});
+    // this.getItems();
   }
   sortBy(lbl) {
     let sort = this.state.sort;
     let direction = 'ASC';
     if (sort[0] === lbl)
       direction = (sort[1] === 'ASC') ? 'DESC' : 'ASC';
-    this.setState({sort: [lbl, direction]});
-    this.getItems(this.props.identity||this.props.params.identity);
+    this.setState({
+      sort: [lbl, direction],
+      doChange: true
+    });
+    // this.getItems();
+  }
+  changePage(num) {
+    let skip = (num-1) * this.props.limit;
+    this.setState({
+      skip: skip,
+      doChange: true
+    });
+    // this.getItems();
   }
   render() {
     let CurrentLayout = this.props.layout||DefaultLayout;
     return (
       <CurrentLayout {...this.props} {...this.state}>
         <AdList items={[]} {...this.props.params} {...this.props} {...this.state}
-          sortBy={this.sortBy.bind(this)} filterBy={this.filterBy.bind(this)} />
+          changePage={this.changePage.bind(this)}
+          sortBy={this.sortBy.bind(this)}
+          filterBy={this.filterBy.bind(this)} />
       </CurrentLayout>
     );
   }
