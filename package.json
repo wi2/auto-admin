@@ -1,6 +1,6 @@
 {
   "name": "auto-admin",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Automatic Administrator for sails.js in react",
   "scripts": {
     "test": "npm run prepublish && mocha --compilers js:babel/register --recursive test/test.js test/*.test.js",
@@ -19,6 +19,7 @@
   "dependencies": {
     "newforms": "^0.12.1",
     "newforms-bootstrap": "^2.0.0",
+    "rc-pagination": "^1.1.15",
     "react": "^0.13.3",
     "react-router": "^0.13.3"
   },
@@ -29,8 +30,7 @@
     "expect.js": "^0.3.1",
     "jsdom": "^6.1.0",
     "mocha": "^2.3.3",
-    "node-jsdom": "^3.1.5",
-    "rc-pagination": "^1.1.15"
+    "node-jsdom": "^3.1.5"
   },
   "repository": {
     "type": "git",

@@ -8,7 +8,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _get = function get(_x3, _x4, _x5) { var _again = true; _function: while (_again) { var object = _x3, property = _x4, receiver = _x5; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x3 = parent; _x4 = property; _x5 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _get = function get(_x2, _x3, _x4) { var _again = true; _function: while (_again) { var object = _x2, property = _x3, receiver = _x4; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x2 = parent; _x3 = property; _x4 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
 exports.Routes = Routes;
 
@@ -279,21 +279,25 @@ var List = (function (_AdminComponent3) {
     value: function componentWillUpdate(props, state) {
       if (this.props.params.identity !== props.params.identity) {
         this.getItems(props.params.identity);
-      } else if (state.doChange || this.state.doChange) {
+      } else if (state.doChange && state.doChange !== this.state.doChange) {
+        this.getItems(props.params.identity, {
+          contain: state.contain,
+          sort: state.sort.join(" "),
+          limit: props.limit,
+          skip: state.skip
+        });
         this.setState({ doChange: false });
-        this.getItems();
       }
     }
   }, {
     key: 'getItems',
-    value: function getItems() {
+    value: function getItems(identity, params) {
       var _this6 = this;
 
-      var identity = arguments.length <= 0 || arguments[0] === undefined ? this.props.identity || this.props.params.identity : arguments[0];
+      if (identity === undefined) identity = this.props.identity || this.props.params.identity;
 
       if (typeof io !== "undefined") {
-        // let identity = this.props.identity||this.props.params.identity;
-        var params = {
+        params = params || {
           contain: this.state.contain,
           sort: this.state.sort.join(" "),
           limit: this.props.limit,
@@ -309,9 +313,7 @@ var List = (function (_AdminComponent3) {
     value: function filterBy(lbl, val) {
       var contain = this.state.contain;
       contain[lbl] = { 'contains': val };
-      if (val.length) this.setState(contain);else if (this.state.contain[lbl]) delete this.state.contain[lbl];
-      this.setState({ doChange: true });
-      // this.getItems();
+      this.setState({ contain: contain, doChange: true });
     }
   }, {
     key: 'sortBy',
@@ -320,20 +322,18 @@ var List = (function (_AdminComponent3) {
       var direction = 'ASC';
       if (sort[0] === lbl) direction = sort[1] === 'ASC' ? 'DESC' : 'ASC';
       this.setState({
-        sort: [lbl, direction],
-        doChange: true
+        doChange: true,
+        sort: [lbl, direction]
       });
-      // this.getItems();
     }
   }, {
     key: 'changePage',
     value: function changePage(num) {
       var skip = (num - 1) * this.props.limit;
       this.setState({
-        skip: skip,
-        doChange: true
+        doChange: true,
+        skip: skip
       });
-      // this.getItems();
     }
   }, {
     key: 'render',

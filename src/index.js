@@ -133,15 +133,19 @@ export class List extends AdminComponent {
   componentWillUpdate(props, state) {
     if (this.props.params.identity !== props.params.identity) {
       this.getItems(props.params.identity);
-    } else if (state.doChange || this.state.doChange) {
+    } else if (state.doChange && state.doChange !== this.state.doChange) {
+      this.getItems(props.params.identity, {
+        contain: state.contain,
+        sort: state.sort.join(" "),
+        limit: props.limit,
+        skip: state.skip
+      });
       this.setState({doChange: false});
-      this.getItems();
     }
   }
-  getItems(identity=this.props.identity||this.props.params.identity) {
+  getItems(identity=this.props.identity||this.props.params.identity, params) {
     if (typeof io !== "undefined") {
-      // let identity = this.props.identity||this.props.params.identity;
-      let params = {
+      params = params||{
         contain: this.state.contain,
         sort: this.state.sort.join(" "),
         limit: this.props.limit,
@@ -155,10 +159,7 @@ export class List extends AdminComponent {
   filterBy(lbl, val) {
     let contain = this.state.contain;
     contain[lbl] = {'contains': val};
-    if (val.length) this.setState(contain);
-    else if (this.state.contain[lbl]) delete this.state.contain[lbl];
-    this.setState({doChange: true});
-    // this.getItems();
+    this.setState({contain, doChange: true});
   }
   sortBy(lbl) {
     let sort = this.state.sort;
@@ -166,18 +167,16 @@ export class List extends AdminComponent {
     if (sort[0] === lbl)
       direction = (sort[1] === 'ASC') ? 'DESC' : 'ASC';
     this.setState({
-      sort: [lbl, direction],
-      doChange: true
+      doChange: true,
+      sort: [lbl, direction]
     });
-    // this.getItems();
   }
   changePage(num) {
     let skip = (num-1) * this.props.limit;
     this.setState({
-      skip: skip,
-      doChange: true
+      doChange: true,
+      skip: skip
     });
-    // this.getItems();
   }
   render() {
     let CurrentLayout = this.props.layout||DefaultLayout;
