@@ -92,11 +92,15 @@ var _default = (function (_React$Component) {
             })
           )
         ),
-        _react2['default'].createElement(_rcPagination2['default'], { className: 'pagination',
-          onChange: this.changePage.bind(this),
-          pageSize: this.props.limit,
-          current: this.props.current,
-          total: this.props.total })
+        _react2['default'].createElement(
+          'div',
+          { className: 'wrap-pagination' },
+          _react2['default'].createElement(_rcPagination2['default'], { className: 'pagination',
+            onChange: this.changePage.bind(this),
+            pageSize: this.props.limit,
+            current: this.props.current,
+            total: this.props.total })
+        )
       );
     }
   }]);

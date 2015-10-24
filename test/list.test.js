@@ -122,10 +122,11 @@ describe('component list', () => {
   });
 
   describe('list', () => {
-    let list;
+    let list, listChildren;
 
     before(function(){
-      list = renderShallow(<List {...projects} />)
+      list = renderShallow(<List {...projects} skip={0} limit={10} total={5} />)
+      listChildren = list.props.children;
     })
 
     it('should be a div', () => {
@@ -134,7 +135,7 @@ describe('component list', () => {
 
 
     it.skip('should', () => {
-      expect(list.props.children[1]).to.eql(
+      expect(listChildren[1]).to.eql(
         <table className="table">
           <thead>
             <Sort item={projects.formItem} sortBy={function(){}} />
@@ -150,7 +151,7 @@ describe('component list', () => {
     });  // does not work because sortBy and filterBy fn
 
     it('should return a list of items', () => {
-      expect(list.props.children[1].props.children[1]).to.eql(
+      expect(listChildren[1].props.children[1]).to.eql(
         <tbody>
           {projects.items.map( item => {
             return <Item key={item.id} item={item} fItem={projects.formItem} urlParams={{identity:projects.identity, id: item.id}} />
@@ -160,7 +161,11 @@ describe('component list', () => {
     })
 
     it('should H1', () => {
-      expect(list.props.children[0]).to.eql(<h1>{"project"} List</h1>);
+      expect(listChildren[0]).to.eql(<h1>{"project"} List</h1>);
+    })
+
+    it('should Pagination', () => {
+      expect(listChildren[2].type).to.equal('div');
     })
 
   });
