@@ -124,6 +124,7 @@ export class List extends AdminComponent {
     contain: {},
     sort: this.props.sort||['id', 'ASC'],
     skip: this.props.skip||0
+    limit: this.props.limit||30
   }
   componentWillMount() {
     if (!this.props.item) {
@@ -148,7 +149,7 @@ export class List extends AdminComponent {
       params = params||{
         contain: this.state.contain,
         sort: this.state.sort.join(" "),
-        limit: this.props.limit,
+        limit: this.state.limit,
         skip: this.state.skip
       };
       io.socket.get(this.props.root + "/" + identity, params, ( res => {
@@ -172,7 +173,7 @@ export class List extends AdminComponent {
     });
   }
   changePage(num) {
-    let skip = (num-1) * this.props.limit;
+    let skip = (num-1) * (this.props.limit||this.state.limit);
     this.setState({
       doChange: true,
       skip: skip
