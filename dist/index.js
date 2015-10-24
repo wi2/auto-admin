@@ -263,7 +263,8 @@ var List = (function (_AdminComponent3) {
     this.state = {
       contain: {},
       sort: this.props.sort || ['id', 'ASC'],
-      skip: this.props.skip || 0
+      skip: this.props.skip || 0,
+      limit: this.props.limit || 30
     };
   }
 
@@ -300,7 +301,7 @@ var List = (function (_AdminComponent3) {
         params = params || {
           contain: this.state.contain,
           sort: this.state.sort.join(" "),
-          limit: this.props.limit,
+          limit: this.state.limit,
           skip: this.state.skip
         };
         io.socket.get(this.props.root + "/" + identity, params, function (res) {
@@ -329,7 +330,7 @@ var List = (function (_AdminComponent3) {
   }, {
     key: 'changePage',
     value: function changePage(num) {
-      var skip = (num - 1) * this.props.limit;
+      var skip = (num - 1) * (this.props.limit || this.state.limit);
       this.setState({
         doChange: true,
         skip: skip

@@ -123,7 +123,7 @@ export class List extends AdminComponent {
   state = {
     contain: {},
     sort: this.props.sort||['id', 'ASC'],
-    skip: this.props.skip||0
+    skip: this.props.skip||0,
     limit: this.props.limit||30
   }
   componentWillMount() {
